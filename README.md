@@ -2,6 +2,18 @@
 
 A simple chain of responsibility pipeline for .NET
 
+### Installing Pipr
+
+You should install [Pipr with NuGet](https://www.nuget.org/packages/Pipr):
+
+    Install-Package Pipr
+
+Or via the .NET Core command line interface:
+
+    dotnet add package Pipr
+
+Either commands, from Package Manager Console or .NET Core CLI, will download and install Pipr and all required dependencies.
+
 ### Usage
 
 #### Simple
@@ -74,13 +86,12 @@ To satisfy type system constraints, in this setup type, at each step you need to
 The first step can specify your IStep type and its input and output.
 Each additional step must provide the IStep type, the initial step type (pipeline entry type), and the step's input and output types.
 
-
-
 #### Aborting
 
 Pipeline steps can cancel and abort further processing by calling `context.Cancel()`:
 
 For example
+
 ```
 public class CancellingStep : IStep<string, string>
 {
