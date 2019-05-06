@@ -30,16 +30,12 @@ namespace PipelineBuilderTests
         }
     }
 
-
-
-
-
     public class CancellingStep : IStep<string, string>
     {
         public string Execute(string input, PipelineContext context)
         {
             context.Cancel();
-            return null;
+            return "a value";
         }
     }
 

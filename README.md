@@ -73,3 +73,24 @@ var result = pipeline.Execute(12);
 To satisfy type system constraints, in this setup type, at each step you need to specify inputs and outpt types.
 The first step can specify your IStep type and its input and output.
 Each additional step must provide the IStep type, the initial step type (pipeline entry type), and the step's input and output types.
+
+
+#### Aborting
+
+Pipeline steps can cancel and abort further processing by calling `context.Cancel()`:
+
+For example
+```
+
+    public class CancellingStep : IStep<string, string>
+    {
+        public string Execute(string input, PipelineContext context)
+        {
+            context.Cancel();
+            return "a value";
+        }
+    }
+
+```
+
+If a step cancels further processing, the pipeline return value will be the default value for the return type.
