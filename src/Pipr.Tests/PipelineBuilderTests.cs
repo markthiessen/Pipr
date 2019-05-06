@@ -14,6 +14,14 @@ namespace PipelineBuilderTests
         }
     }
 
+    public class DoublerStep : IStep<string, string>
+    {
+        public string Execute(string input, PipelineContext context)
+        {
+            return input + input;
+        }
+    }
+
     public class ToIntStep : IStep<string, int>
     {
         public int Execute(string input, PipelineContext context)
@@ -24,13 +32,7 @@ namespace PipelineBuilderTests
 
 
 
-    public class DoublerStep : IStep<string, string>
-    {
-        public string Execute(string input, PipelineContext context)
-        {
-            return input + input;
-        }
-    }
+
 
     public class CancellingStep : IStep<string, string>
     {
@@ -63,7 +65,6 @@ namespace PipelineBuilderTests
             serviceCollection.AddTransient<ToStringStep>();
             serviceCollection.AddTransient<DoublerStep>();
 
-            var serviceProvider = serviceCollection.BuildServiceProvider();
             serviceCollection.AddPipr();
 
             var pipeline = new PipelineBuilder()
