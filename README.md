@@ -92,4 +92,4 @@ public class CancellingStep : IStep<string, string>
 }
 ```
 
-If a step cancels further processing, the pipeline return value will be the default value for the return type.
+If a step cancels further processing, no following steps will run, and the pipeline return value will be the default value for the return type.
