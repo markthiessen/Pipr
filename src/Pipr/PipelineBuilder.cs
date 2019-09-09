@@ -7,7 +7,7 @@ namespace Pipr
 {
     public class PipelineBuilder
     {
-        public StepRunner<Tin, Tout> AddStep<T, Tin, Tout>() where T : IStep<Tin, Tout>
+        public StepRunner<Tin, Tout> AddStep<T, Tin, Tout>(InjectedType<T> placeholder) where T : IStep<Tin, Tout>
         {
             IStep<Tin, Tout> step = PipelineConfiguration.ServiceProvider.GetService<T>();
             return new StepRunner<Tin, Tout>
@@ -23,11 +23,16 @@ namespace Pipr
                 Handle = (arg, context) => step.Execute(arg, context)
             };
         }
+
+        public static T UseService<T>()
+        {
+            return default(T);
+        }
     }
 
     public static class PipelineBuilderExtensions
     {
-        public static StepRunner<T1, TResult> AddStep<T, T1, T2, TResult>(this StepRunner<T1, T2> pipeline) where T : IStep<T2, TResult>
+        public static StepRunner<T1, TResult> AddStep<T, T1, T2, TResult>(this StepRunner<T1, T2> pipeline, InjectedType<T> placeholder) where T : IStep<T2, TResult>
         {
             IStep<T2, TResult> step = PipelineConfiguration.ServiceProvider.GetService<T>();
             var next = new StepRunner<T2, TResult>
@@ -94,6 +99,15 @@ namespace Pipr
         public static Pipeline<Tin, Tout> Build<Tin, Tout>(this StepRunner<Tin, Tout> runner)
         {
             return new Pipeline<Tin, Tout>(runner);
+        }
+    }
+
+
+    public class InjectedType<T>
+    {
+        public static T Configure()
+        {
+            return default(T);
         }
     }
 }

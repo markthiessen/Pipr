@@ -64,9 +64,9 @@ namespace PipelineBuilderTests
             serviceCollection.AddPipr();
 
             var pipeline = new PipelineBuilder()
-                .AddStep<ToStringStep, int, string>()
-                .AddStep<DoublerStep, int, string, string>()
-                .AddStep<DoublerStep, int, string, string>()
+                .AddStep(PipelineBuilder.UseService<ToStringStep>())
+                .AddStep(PipelineBuilder.UseService<DoublerStep>())
+                .AddStep(PipelineBuilder.UseService<DoublerStep>())
                 .Build();
 
             var result = pipeline.Execute(12);

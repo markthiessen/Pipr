@@ -73,18 +73,16 @@ serviceCollection.AddPipr();
 Then create and use pipelines like so:
 
 ```
- var pipeline = new PipelineBuilder()
-            .AddStep<ToStringStep, int, string>()
-            .AddStep<DoublerStep, int, string, string>()
-            .AddStep<DoublerStep, int, string, string>()
-            .Build();
+var pipeline = new PipelineBuilder()
+        .AddStep(PipelineBuilder.UseService<ToStringStep>())
+        .AddStep(PipelineBuilder.UseService<DoublerStep>())
+        .AddStep(PipelineBuilder.UseService<DoublerStep>())
+        .Build();
 
 var result = pipeline.Execute(12);
 ```
+The `PipelineBuilder.UseService<T>()` method doesn't really do anything but return default(T). This just lets us have nicer syntax for configuring without having to pass in all of the in/out types and still use dependency injection.
 
-To satisfy type system constraints, in this setup type, at each step you need to specify inputs and outpt types.
-The first step can specify your IStep type and its input and output.
-Each additional step must provide the IStep type, the initial step type (pipeline entry type), and the step's input and output types.
 
 #### Aborting
 
