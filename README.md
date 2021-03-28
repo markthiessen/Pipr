@@ -12,7 +12,8 @@ Or via the .NET Core command line interface:
 
     dotnet add package Pipr
 
-Either commands, from Package Manager Console or .NET Core CLI, will download and install Pipr and all required dependencies.
+Either commands, from Package Manager Console or .NET Core CLI, will download
+and install Pipr and all required dependencies.
 
 ### Usage
 
@@ -53,40 +54,10 @@ var result = pipeline.Execute(12);
 
 The in/out of the pipeline can be inferred by the type system as you add steps.
 
-#### Dependency Injection
-
-You can also have Pipr create your objects for you using the IServiceProvider from `Microsoft.Extensions.DependencyInjection` if you specify the type and the inputs and outputs as you build the pipeline and configure on startup.
-
-In Startup.cs:
-
-```
-...
-
-serviceCollection.AddTransient<ToStringStep>(); // (example, doesn't have to be Transient lifetime)
-serviceCollection.AddTransient<DoublerStep>();
-
-serviceCollection.AddPipr();
-...
-
-```
-
-Then create and use pipelines like so:
-
-```
-var pipeline = new PipelineBuilder()
-        .AddStep(PipelineBuilder.UseService<ToStringStep>())
-        .AddStep(PipelineBuilder.UseService<DoublerStep>())
-        .AddStep(PipelineBuilder.UseService<DoublerStep>())
-        .Build();
-
-var result = pipeline.Execute(12);
-```
-The `PipelineBuilder.UseService<T>()` method doesn't really do anything but return default(T). This just lets us have nicer syntax for configuring without having to pass in all of the in/out types and still use dependency injection.
-
-
 #### Aborting
 
-Pipeline steps can cancel and abort further processing by calling `context.Cancel()`:
+Pipeline steps can cancel and abort further processing by calling
+`context.Cancel()`:
 
 For example
 
@@ -101,4 +72,5 @@ public class CancellingStep : IStep<string, string>
 }
 ```
 
-If a step cancels further processing, no following steps will run, and the pipeline return value will be the default value for the return type.
+If a step cancels further processing, no following steps will run, and the
+pipeline return value will be the default value for the return type.
