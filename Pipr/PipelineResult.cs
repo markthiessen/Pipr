@@ -1,8 +1,3 @@
-using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
-
 namespace Pipr
 {
     public class PipelineResult<T>
@@ -11,5 +6,4 @@ namespace Pipr
         public bool Completed { get; internal set; }
         public T Value { get; internal set; }
     }
-
 }

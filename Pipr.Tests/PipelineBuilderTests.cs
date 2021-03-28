@@ -1,5 +1,3 @@
-using System;
-using Microsoft.Extensions.DependencyInjection;
 using Pipr;
 using Xunit;
 
@@ -48,25 +46,6 @@ namespace PipelineBuilderTests
                 .AddStep(new ToStringStep())
                 .AddStep(new DoublerStep())
                 .AddStep(new DoublerStep())
-                .Build();
-
-            var result = pipeline.Execute(12);
-            Assert.Equal("12121212", result.Value);
-        }
-
-        [Fact(DisplayName = "With dependency injection")]
-        public void FromProvider()
-        {
-            IServiceCollection serviceCollection = new ServiceCollection();
-            serviceCollection.AddTransient<ToStringStep>();
-            serviceCollection.AddTransient<DoublerStep>();
-
-            serviceCollection.AddPipr();
-
-            var pipeline = new PipelineBuilder()
-                .AddStep(PipelineBuilder.UseService<ToStringStep>())
-                .AddStep(PipelineBuilder.UseService<DoublerStep>())
-                .AddStep(PipelineBuilder.UseService<DoublerStep>())
                 .Build();
 
             var result = pipeline.Execute(12);

@@ -1,7 +1,4 @@
 using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Pipr
 {
@@ -11,10 +8,7 @@ namespace Pipr
 
         public StepRunner()
         {
-            Handle = (arg, context) =>
-           {
-               return default(Tout);
-           };
+            Handle = ((Tin arg, PipelineContext context) => default(Tout));
         }
 
         public Tout Execute(Tin input, PipelineContext context)
